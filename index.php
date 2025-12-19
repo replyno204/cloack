@@ -13,7 +13,7 @@ require __DIR__ . '/functions.php';
 $ip = getUserIP();
 $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
 $asn = getASN($ip) ?? 'Unknown';
-$isGoogleBot = isLegitGoogleBot($userAgent, $ip);
+$isGoogleTraffic = isGoogleRelatedTraffic($userAgent, $ip, $asn);
 $isForeign = isForeign($ip);
 
 // Delay artificial para bots com cabeçalhos suspeitos
@@ -26,7 +26,7 @@ if (!empty($config['debug']) && $config['debug']) {
     echo "User-Agent: $userAgent\n";
     echo "ASN: $asn\n";
     echo "Host: " . gethostbyaddr($ip) . "\n";
-    echo "É GoogleBot? " . ($isGoogleBot ? 'SIM' : 'NÃO') . "\n";
+    echo "É tráfego do Google? " . ($isGoogleTraffic ? 'SIM' : 'NÃO') . "\n";
     echo "É estrangeiro? " . ($isForeign ? 'SIM' : 'NÃO') . "\n";
     echo "Host suspeito? " . (isSuspiciousHost($ip) ? 'SIM' : 'NÃO') . "\n";
     echo "ASN bloqueado? " . (isBlockedASN($asn) ? 'SIM' : 'NÃO') . "\n";
@@ -35,13 +35,13 @@ if (!empty($config['debug']) && $config['debug']) {
 }
 
 // Verificações de segurança
-if ($isGoogleBot || $isForeign || isSuspiciousHost($ip) || isBlockedASN($asn)) {
+if ($isGoogleTraffic || $isForeign || isSuspiciousHost($ip) || isBlockedASN($asn)) {
     header("Location: " . $config['whitepage']);
     exit;
 }
 
 // Log do acesso
-logAccess($ip, $userAgent, $asn, $isGoogleBot);
+logAccess($ip, $userAgent, $asn, $isGoogleTraffic);
 
 // Gera token único para acesso à oferta real
 $token = bin2hex(random_bytes(16));

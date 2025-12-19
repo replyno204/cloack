@@ -76,20 +76,10 @@ function isGoogleASN($asn) {
     return in_array($asn, $google_asns);
 }
 
-// Confirma se é um Googlebot legítimo
-function isLegitGoogleBot($userAgent, $ip) {
-    $asn = getASN($ip);
-    return (
-        isGoogleBotUserAgent($userAgent) &&
-        isGoogleHost($ip) &&
-        isGoogleASN($asn)
-    );
-}
-
 // Salva log do acesso
-function logAccess($ip, $userAgent, $asn, $isGoogleBot) {
+function logAccess($ip, $userAgent, $asn, $isGoogleTraffic) {
     $country = getGeoData($ip)['countryCode'] ?? 'XX';
-    $logLine = date('Y-m-d H:i:s') . ",$ip,\"$userAgent\",$asn,$country," . ($isGoogleBot ? 'YES' : 'NO') . PHP_EOL;
+    $logLine = date('Y-m-d H:i:s') . ",$ip,\"$userAgent\",$asn,$country," . ($isGoogleTraffic ? 'YES' : 'NO') . PHP_EOL;
     file_put_contents(__DIR__ . '/../logs/acessos.csv', $logLine, FILE_APPEND);
 }
 
@@ -98,6 +88,48 @@ $blocked_asns = ['AS396982', 'AS13335', 'AS15169', 'AS8075'];
 function isBlockedASN($asn) {
     global $blocked_asns;
     return in_array($asn, $blocked_asns);
+}
+
+// Detecta qualquer tipo de tráfego relacionado ao Google (bots legítimos ou não)
+function isGoogleRelatedTraffic($userAgent, $ip, $asn) {
+    // Verifica User-Agent suspeito do Google
+    if (isGoogleBotUserAgent($userAgent)) {
+        return true;
+    }
+    
+    // Verifica se o hostname resolve para domínios do Google
+    if (isGoogleHost($ip)) {
+        return true;
+    }
+    
+    // Verifica se o ASN pertence ao Google
+    if (isGoogleASN($asn)) {
+        return true;
+    }
+    
+    // Verificações adicionais de User-Agent para detectar variações
+    $ua_lower = strtolower($userAgent);
+    $google_patterns = [
+        'google',
+        'crawler',
+        'spider',
+        'bot',
+        'slurp',
+        'bingbot',
+        'facebookexternalhit',
+        'twitterbot',
+        'linkedinbot',
+        'whatsapp',
+        'telegrambot'
+    ];
+    
+    foreach ($google_patterns as $pattern) {
+        if (strpos($ua_lower, $pattern) !== false) {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 // Nomes de host de CDNs comuns (Cloudflare, etc)
