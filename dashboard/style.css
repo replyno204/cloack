@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    margin: 0; padding: 0;
+    color: #333;
+}
+
+h1, h2 {
+    margin-bottom: 1rem;
+}
+
+header {
+    background: #2196f3;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-sair {
+    color: white;
+    text-decoration: none;
+    background: #f44336;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+}
+
+.login-container {
+    max-width: 320px;
+    margin: 6rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+}
+
+.login-container input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 0.6rem;
+    background: #2196f3;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+
+main {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgb(0 0 0 / 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+table th, table td {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.filter-form label {
+    margin-right: 1rem;
+}
+
+.filter-form button, .export-form button {
+    background: #2196f3;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-limpar {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: #666;
+}

@@ -1,0 +1,15 @@
+@font-face {
+	font-family: Inter var;
+	font-weight: 100 900;
+	font-style: normal;
+	font-named-instance: "Regular";
+	src: url(")
+}
+
+@keyframes react-loading-skeleton {
+	to {
+		transform: translateX(100%)
+	}
+}
+
+@media (prefers-reduced-motion) {}
