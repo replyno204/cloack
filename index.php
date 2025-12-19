@@ -57,6 +57,6 @@ $tokenPath = $tokensDir . '/' . $token . '.txt';
 file_put_contents($tokenPath, time() + 60); // Expira em 60s
 
 // Redirecionamento para a oferta com token
-$targetURL = rtrim($config['moneypage'], '/') . '/?auth_token=' . $token;
+$targetURL = rtrim($config['moneypage'], '/') . '?auth_token=' . $token;
 header("Location: " . $targetURL);
 exit;
